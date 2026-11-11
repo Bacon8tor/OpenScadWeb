@@ -33,6 +33,9 @@ function update_script() {
   local SRC=/opt/openscad-playground
   local WEB=/var/www/openscad
   local VERFILE=/opt/openscad-web_version.txt
+  # Bump PATCH_REV whenever patches/ changes so existing installs rebuild on `update`
+  local PATCH_REV=1
+  local PATCH_BASE="https://raw.githubusercontent.com/Bacon8tor/OpenScadWeb/main/patches"
 
   if [[ ! -d "$SRC/.git" ]]; then
     msg_error "No ${APP} Installation Found!"
@@ -43,7 +46,7 @@ function update_script() {
   cd "$SRC" || exit
   $STD git fetch --depth 1 origin main
   local LATEST CURRENT
-  LATEST=$(git rev-parse FETCH_HEAD)
+  LATEST="$(git rev-parse FETCH_HEAD)-p${PATCH_REV}"
   CURRENT=$(cat "$VERFILE" 2>/dev/null || echo "none")
   msg_ok "Checked for updates"
 
@@ -58,8 +61,10 @@ function update_script() {
   msg_ok "Updated OS packages"
 
   msg_info "Updating ${APP} to ${LATEST:0:7} (this can take several minutes)"
-  $STD git reset --hard "$LATEST"
+  $STD git reset --hard FETCH_HEAD
   sed -i 's#"homepage": *"[^"]*"#"homepage": "/"#' package.json
+  curl -fsSL "${PATCH_BASE}/enable-upload.mjs" -o /opt/openscad-web-enable-upload.mjs
+  $STD node /opt/openscad-web-enable-upload.mjs "$SRC"
   $STD npm ci
   $STD npm run build:libs
   $STD npm run build

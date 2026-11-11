@@ -40,6 +40,14 @@ update
 
 This rebuilds only when upstream has a new commit. If you lowered the RAM after install, raise it back to 2 GB first.
 
+## Uploading files
+
+Upstream openscad-playground ships the **⋯ → Upload file(s)** menu item disabled. This installer patches it on during the build ([patches/enable-upload.mjs](patches/enable-upload.mjs)):
+
+- `.scad` files become editable files in the project, and the first one opens.
+- Other files (STL, SVG, DXF, PNG and so on) are added at the project root, so you can use them from your code with `import("part.stl");` or `surface("map.png");`.
+- Uploaded files are saved in the page's URL/state, so very large meshes make the page slower.
+
 ## Notes
 
 - Projects are saved in each browser's local storage, so they don't sync between devices. Use the playground's download/share options to move designs around.

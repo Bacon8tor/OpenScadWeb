@@ -15,6 +15,7 @@ update_os
 SRC=/opt/openscad-playground
 WEB=/var/www/openscad
 VERFILE=/opt/openscad-web_version.txt
+PATCH_BASE="https://raw.githubusercontent.com/Bacon8tor/OpenScadWeb/main/patches"
 
 msg_info "Installing Dependencies"
 $STD apt-get install -y git curl ca-certificates gnupg make zip unzip nginx
@@ -40,6 +41,9 @@ msg_info "Building openscad-playground (downloads OpenSCAD WASM + libraries, tak
 cd "$SRC" || exit
 # Serve from the web root instead of the upstream author's GitHub Pages path.
 sed -i 's#"homepage": *"[^"]*"#"homepage": "/"#' package.json
+# Turn on the "Upload file(s)" menu item (disabled upstream)
+curl -fsSL "${PATCH_BASE}/enable-upload.mjs" -o /opt/openscad-web-enable-upload.mjs
+$STD node /opt/openscad-web-enable-upload.mjs "$SRC"
 $STD npm ci
 $STD npm run build:libs
 $STD npm run build
@@ -47,7 +51,7 @@ mkdir -p "$(dirname "$WEB")"
 rm -rf "$WEB"
 # -L: public/openscad.{js,wasm} are symlinks into the build tree; copy the real files.
 cp -rL dist "$WEB"
-git rev-parse HEAD >"$VERFILE"
+echo "$(git rev-parse HEAD)-p1" >"$VERFILE"  # -p1 must match PATCH_REV in ct/openscad-web.sh
 $STD npm cache clean --force
 msg_ok "Built openscad-playground ($(cut -c1-7 "$VERFILE"))"
 
