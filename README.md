@@ -4,17 +4,12 @@ This creates a Debian 12 LXC on Proxmox running [openscad-playground](https://gi
 
 The scripts use the [community-scripts](https://github.com/community-scripts) framework, so you get the same whiptail menus as the other community helper scripts.
 
-## Setup (one time)
-
-1. Push this repo to GitHub.
-2. In [ct/openscad-web.sh](ct/openscad-web.sh), replace `YOUR_GITHUB_USER` with your GitHub username. You can instead export `COMMUNITY_SCRIPTS_URL` before running the script.
-
 ## Install
 
 Run this in the Proxmox host shell:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/OpenScadWeb/main/ct/openscad-web.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Bacon8tor/OpenScadWeb/main/ct/openscad-web.sh)"
 ```
 
 The build downloads the OpenSCAD WASM build, fonts and libraries (BOSL2, MCAD and more), so it takes a few minutes. When it's finished, open `http://<container-ip>`.

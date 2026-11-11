@@ -4,9 +4,9 @@
 # License: MIT
 # Source: https://github.com/openscad/openscad-playground
 
-# Where this repo's ct/ and install/ scripts are fetched from.
-# Change YOUR_GITHUB_USER to the GitHub account hosting this repo (or export it before running).
-export COMMUNITY_SCRIPTS_URL="${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/YOUR_GITHUB_USER/OpenScadWeb/main}"
+# Where this repo's ct/ and install/ scripts are fetched from:
+# the GitHub raw URL of this repo (override by exporting COMMUNITY_SCRIPTS_URL before running).
+export COMMUNITY_SCRIPTS_URL="${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/Bacon8tor/OpenScadWeb/main}"
 
 _cs_boot="${COMMUNITY_SCRIPTS_CORE_DIR:-$(dirname "${BASH_SOURCE[0]}")/../../core}/core/build.func"
 # shellcheck disable=SC1090
