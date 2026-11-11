@@ -1,0 +1,46 @@
+{
+  "name": "OpenSCAD Web",
+  "slug": "openscad-web",
+  "categories": [0],
+  "date_created": "2026-11-10",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "interface_port": 80,
+  "documentation": "https://github.com/openscad/openscad-playground",
+  "website": "https://openscad.org/",
+  "logo": "https://openscad.org/assets/img/logo.png",
+  "config_path": "/etc/nginx/sites-available/openscad",
+  "description": "OpenSCAD in the browser via openscad-playground (OpenSCAD compiled to WebAssembly), served by nginx. Rendering runs on the client device; bundled libraries include BOSL2, MCAD and more.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/openscad-web.sh",
+      "resources": {
+        "cpu": 2,
+        "ram": 2048,
+        "hdd": 6,
+        "os": "debian",
+        "version": "12"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": null,
+    "password": null
+  },
+  "notes": [
+    {
+      "text": "The app has no login. If exposing it through a reverse proxy, protect it (e.g. an Access List in Nginx Proxy Manager).",
+      "type": "warning"
+    },
+    {
+      "text": "Projects are stored in each browser's local storage and do not sync between devices.",
+      "type": "info"
+    },
+    {
+      "text": "2 GB RAM is needed for the build; after install you can lower it to 512 MB (raise it again before running update).",
+      "type": "info"
+    }
+  ]
+}
